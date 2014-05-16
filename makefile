@@ -4,7 +4,7 @@ RTTIFLAG := -fno-rtti
 
 # NOTE: Replace the following with the path to the llvm-config utility
 # Example path: /Users/NAME/Projects/clang/binaries3.4/clang+llvm-3.4-x86_64-apple-darwin10.9/bin/llvm-config
-LLVMCONFIG :=
+LLVMCONFIG := /Users/eric/Projects/clang/binaries3.4/clang+llvm-3.4-x86_64-apple-darwin10.9/bin/llvm-config
 
 CXXFLAGS := -I$(shell $(LLVMCONFIG) --src-root)/tools/clang/include -I$(shell $(LLVMCONFIG) --obj-root)/tools/clang/include $(shell $(LLVMCONFIG) --cxxflags) $(RTTIFLAG) -std=c++11
 LLVMLDFLAGS := $(shell $(LLVMCONFIG) --ldflags --libs $(LLVMCOMPONENTS))
@@ -36,12 +36,7 @@ CLANGLIBS = \
 				$(shell $(LLVMCONFIG) --libs)\
                 -lcurses
 
-all: checkVariables $(OBJECTS) $(EXES)
-
-checkVariables:
-ifndef LLVMCONFIG
-	$(error LLVMCONFIG variable must be set to the path of the llvm-config-utility)
-endif
+all: $(OBJECTS) $(EXES)
 
 %: %.o
 	$(CXX) -o $@ $< $(CLANGLIBS) $(LLVMLDFLAGS)
